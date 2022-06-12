@@ -51,6 +51,7 @@ int main(int argc, char* argv[])
 				MPI_Send(&chunksize, 1, MPI_INT, i, 0, MPI_COMM_WORLD);
 				// send the actual data
 				MPI_Send(&data[index], chunksize, MPI_INT, i, 0, MPI_COMM_WORLD);
+			}
 		}
 		
 		// we now  need to get the remaining chunks that may have been ignore at nprocesses-1 
@@ -83,8 +84,8 @@ int main(int argc, char* argv[])
 		}
 		// prints the final sum of array
         printf("Sum of array is : %d\n", sum);
-		}
-	}else{
+	}
+	else{
 		// lets hand the slave condition, remember they are being passed around workload chunks
 		int localChunkSize = 0;
 		
