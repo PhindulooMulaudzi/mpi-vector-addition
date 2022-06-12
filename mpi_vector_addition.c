@@ -72,6 +72,7 @@ int main(int argc, char* argv[])
 		//Lets get them and aggregate them
 		int partialSum = 0;
 		
+		// we need a loop to recieve from all the nprocesses that are send back answer
 		for(i = 1; i < nprocesses; i++){
 			//MPI_Recv(void *buf, int count, MPI_Datatype datatype, int source, int tag,MPI_Comm comm, MPI_Status *status)
 			MPI_Recv(&partialSum, 1, MPI_INT, MPI_ANY_SOURCE, 0, MPI_COMM_WORLD, &status);
@@ -87,14 +88,22 @@ int main(int argc, char* argv[])
 		// lets hand the slave condition, remember they are being passed around workload chunks
 		int localChunkSize = 0;
 		
+		// recieve value of localChunk and assign it
 		MPI_Recv(&localChunkSize, 1, MPI_INT, 0, 0, MPI_COMM_WORLD, &status);
+		
+		//create array to reacieve local chunk data for current workload
 		int chunks[localChunkSize];
 		
+		// recieve workload chunks
 		MPI_Recv(&chunks, localChunkSize, MPI_INT, 0, 0, MPI_COMM_WORLD, &status);
 		int localSum = 0, i = 0;
+		
+		// carry out the partial sums
 		for(i = 0; i < localChunkSize; i++){
 			localSum += chunks[i];			
 		}
+		
+		// send back local sum
 		MPI_Send(&localSum, 1, MPI_INT, 0,0, MPI_COMM_WORLD);
 	}
 	
