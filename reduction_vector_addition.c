@@ -30,8 +30,8 @@ int main(int argc, char* argv[])
 	MPI_Comm_rank(MPI_COMM_WORLD, &currentProcess); // get current process ID
 	MPI_Comm_size(MPI_COMM_WORLD, &nprocesses); //get number of processes	
 		
-	// We will be using scatter and gather. Scatter basically split our array into chunks and distributes to all processes
-	// Gather basically gathers all chunk to an array of size N
+	// We will be using scatter and reduction. Scatter basically split our array into chunks and distributes to all processes
+	// Reduce basically aggregates all out local sums
 	/*int MPI_Scatter(const void *sendbuf, int sendcount, MPI_Datatype sendtype,
                void *recvbuf, int recvcount, MPI_Datatype recvtype, int root,
                MPI_Comm comm)
